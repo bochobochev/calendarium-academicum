@@ -31,7 +31,7 @@ CREATE TABLE courses (
   course_id UUID PRIMARY KEY,
   name VARCHAR(100),
   description VARCHAR(250),
-  horarium NUMERIC(3, 2),
+  horarium NUMERIC(5, 2),
   course_type_id UUID
 );
 

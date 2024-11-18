@@ -1,16 +1,11 @@
 package org.calendarium.calendarium.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -19,9 +14,9 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 public class Student {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "student_id", nullable = false)
@@ -40,19 +35,33 @@ public class Student {
     @JoinColumn(nullable = false, name = "group_id")
     private Group group;
 
+    @OneToMany(mappedBy = "student")
+    private Set<CoursesStudents> coursesEnrolments;
+
     @Override
-    public final boolean equals(Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return studentId != null && Objects.equals(studentId, student.studentId);
+        return Objects.equals(studentId, student.studentId)
+                && Objects.equals(firstName, student.firstName)
+                && Objects.equals(lastName, student.lastName)
+                && Objects.equals(age, student.age)
+                && Objects.equals(group, student.group);
     }
 
     @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    public int hashCode() {
+        return Objects.hash(studentId, firstName, lastName, age, group);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "{" +
+                "studentId : " + studentId + ", " +
+                "firstName : " + firstName + ", " +
+                "lastName : " + lastName + ", " +
+                "age : " + age + ", " +
+                "group : " + group + "}";
     }
 }

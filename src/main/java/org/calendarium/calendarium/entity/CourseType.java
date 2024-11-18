@@ -10,30 +10,23 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "courses_students")
-public class CoursesStudents {
-
+@Table(name = "course_types")
+public class CourseType {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "courses_student_id", nullable = false)
+    @Column(name = "course_type_id", nullable = false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    @ManyToOne
-    @JoinColumn(name = "student_id")
-    private Student student;
+    @Column(name = "name", nullable = false)
+    private String typeDescription;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CoursesStudents that = (CoursesStudents) o;
+        CourseType that = (CourseType) o;
         return Objects.equals(id, that.id)
-                && Objects.equals(course, that.course)
-                && Objects.equals(student, that.student);
+                && Objects.equals(typeDescription, that.typeDescription);
     }
 
     @Override
@@ -43,10 +36,9 @@ public class CoursesStudents {
 
     @Override
     public String toString() {
-        return "CoursesStudents{" +
+        return "CourseType{" +
                 " id: " + id +
-                ", course: " + course +
-                ", student: " + student +
+                ", typeDescription: '" + typeDescription + '\'' +
                 '}';
     }
 }
