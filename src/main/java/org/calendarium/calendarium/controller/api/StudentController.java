@@ -25,35 +25,50 @@ public class StudentController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<Student> getStudent(@PathVariable(name = "id") String id) {
         Optional<Student> student = Optional.empty();
+        logger.debug("Returning student for ID: {}", id);
         if(getUuidFromString(id)!=null) {
             student = Optional.of(studentService.findById(getUuidFromString(id)).orElse(new Student()));
         }
-        logger.debug("Returning student for ID:{}", id);
 
         return new ResponseEntity<>(student.orElse(new Student()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/count", produces = "application/json")
-    public Long countStudents() {
+    public ResponseEntity<Long> countStudents() {
         Optional <Long> studentsCount = Optional.of(studentService.count());
+        logger.debug("Number of students: {}", studentsCount);
 
-        return studentsCount.orElse(-1L);
+        return new ResponseEntity<>(studentsCount.orElse(-1L), HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Student> addStudent(@RequestBody Student student){
+        logger.debug("Saving student: {}", student);
         Optional<Student> createdStudent =  Optional.ofNullable(studentService.save(student));
+
         return new ResponseEntity<>(createdStudent.orElse(new Student()), HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<Student> updateStudent(@PathVariable(name = "id") String id, @RequestBody Student student){
         Optional<Student> updatedStudent =  Optional.empty();
+        logger.debug("Updating student with ID: {}", id);
         if(getUuidFromString(id)!=null) {
             updatedStudent = studentService.update(getUuidFromString(id), student);
         }
 
         return new ResponseEntity<>(updatedStudent.orElse(new Student()), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Student> removeStudent(@PathVariable(name = "id") String id){
+        logger.debug("Deleting student with ID: {}", id);
+        Optional<Student> deletedStudent =  Optional.empty();
+        if(getUuidFromString(id)!=null) {
+            deletedStudent = studentService.delete(getUuidFromString(id));
+        }
+
+        return new ResponseEntity<>(deletedStudent.orElse(new Student()), HttpStatus.NO_CONTENT);
     }
 
 }

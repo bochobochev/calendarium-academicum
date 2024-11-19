@@ -28,6 +28,7 @@ public class StudentService {
         return studentRepository.save(student);
     }
 
+    @Transactional(rollbackFor = IllegalArgumentException.class, rollbackForClassName = "IllegalArgumentException")
     public Optional<Student> update(UUID studentId, Student student){
         int rowsUpdated = studentRepository.update(student.getFirstName()
                 , student.getLastName()
@@ -35,7 +36,16 @@ public class StudentService {
                 , student.getGroup(),
                 studentId
         );
+
         return studentRepository.findById(studentId);
+    }
+
+    @Transactional(rollbackFor = IllegalArgumentException.class, rollbackForClassName = "IllegalArgumentException")
+    public Optional<Student> delete(UUID studentId){
+        Optional <Student> deletedStudent = studentRepository.findById(studentId);
+        deletedStudent.ifPresent(student -> studentRepository.delete(student));
+
+        return deletedStudent;
     }
 
     public long count(){
