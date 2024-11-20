@@ -18,7 +18,7 @@ public class CourseType {
     private UUID id;
 
     @Column(name = "name", nullable = false)
-    private String typeDescription;
+    private String name;
 
     @Override
     public boolean equals(Object o) {
@@ -26,7 +26,7 @@ public class CourseType {
         if (o == null || getClass() != o.getClass()) return false;
         CourseType that = (CourseType) o;
         return Objects.equals(id, that.id)
-                && Objects.equals(typeDescription, that.typeDescription);
+                && Objects.equals(name, that.name);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CourseType {
     public String toString() {
         return "CourseType{" +
                 " id: " + id +
-                ", typeDescription: '" + typeDescription + '\'' +
+                ", typeDescription: '" + name + '\'' +
                 '}';
     }
 }

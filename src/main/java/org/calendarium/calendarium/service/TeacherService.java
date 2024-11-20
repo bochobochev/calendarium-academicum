@@ -42,7 +42,7 @@ public class TeacherService {
 
     public Optional<Teacher> delete(UUID teacherId) {
         Optional <Teacher> deletedTeacher = teacherRepository.findById(teacherId);
-        deletedTeacher.ifPresent(student -> teacherRepository.delete(student));
+        deletedTeacher.ifPresent(teacher -> teacherRepository.delete(teacher));
 
         return deletedTeacher;
     }

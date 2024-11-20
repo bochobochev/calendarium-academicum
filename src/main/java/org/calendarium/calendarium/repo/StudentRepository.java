@@ -18,4 +18,6 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
     @Query("update Student s set s.firstName = ?1, s.lastName = ?2, s.age = ?3, s.group = ?4 where s.studentId = ?5")
     int update(@NonNull String firstName, @NonNull String lastName, @NonNull Integer age, @NonNull Group group, UUID studentId);
 
+
+    List<Student> findByGroup(Group group);
 }

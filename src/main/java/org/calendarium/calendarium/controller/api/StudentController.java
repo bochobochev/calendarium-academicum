@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.calendarium.calendarium.util.ParseUtil.getUuidFromString;
@@ -31,6 +33,17 @@ public class StudentController {
         }
 
         return new ResponseEntity<>(student.orElse(new Student()), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Student>> getStudentsInGroup(@RequestParam(name = "group_number") Integer groupNumber) {
+        Optional<List<Student>> student = Optional.empty();
+        logger.debug("Returning students for group: {}", groupNumber);
+        if(groupNumber!=null) {
+            student = studentService.findByGroupNumber(groupNumber);
+        }
+
+        return new ResponseEntity<>(student.orElse(new ArrayList<Student>()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/count", produces = "application/json")

@@ -3,7 +3,9 @@ package org.calendarium.calendarium.service;
 import jakarta.persistence.EntityExistsException;
 import org.calendarium.calendarium.core.assemblers.StudentAssembler;
 import org.calendarium.calendarium.core.dto.StudentDto;
+import org.calendarium.calendarium.entity.Group;
 import org.calendarium.calendarium.entity.Student;
+import org.calendarium.calendarium.repo.GroupRepository;
 import org.calendarium.calendarium.repo.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +22,8 @@ import java.util.UUID;
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private GroupService groupService;
     @Autowired
     StudentAssembler studentAssembler;
 
@@ -55,5 +60,15 @@ public class StudentService {
 
     public Optional<Student> findById(UUID studentId) {
         return studentRepository.findById(studentId);
+    }
+
+    public Optional<List<Student>> findByGroupNumber(Integer groupNumber) {
+        Optional<Group> group = groupService.getGroupByGroupNumber(groupNumber);
+        Optional<List<Student>> studentsInGroup = Optional.empty();
+        if(group.isPresent()){
+            studentsInGroup = Optional.ofNullable(studentRepository.findByGroup(group.get()));
+        }
+
+        return studentsInGroup;
     }
 }
