@@ -35,8 +35,8 @@ public class Student {
     @JoinColumn(nullable = false, name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "student")
-    private Set<CoursesStudents> coursesEnrolments;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "student")
+//    private Set<CoursesStudents> coursesEnrolments;
 
     @Override
     public boolean equals(Object o) {

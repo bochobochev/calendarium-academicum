@@ -1,6 +1,6 @@
 package org.calendarium.calendarium.controller.api;
 
-import org.calendarium.calendarium.core.dto.StudentDto;
+import org.calendarium.calendarium.entity.CoursesStudents;
 import org.calendarium.calendarium.entity.Student;
 import org.calendarium.calendarium.service.StudentService;
 import org.slf4j.Logger;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.calendarium.calendarium.util.ParseUtil.getUuidFromString;
 
@@ -44,6 +45,16 @@ public class StudentController {
         }
 
         return new ResponseEntity<>(student.orElse(new ArrayList<Student>()), HttpStatus.OK);
+    }
+    @GetMapping(path = "/in-course-older-than")
+    public ResponseEntity<List<CoursesStudents>> getStudentsOlderTanAgeInCourse(@RequestParam(name = "course_id") UUID courseId, @RequestParam(name = "age") Integer age) {
+        Optional<List<CoursesStudents>> student = Optional.empty();
+        logger.debug("Returning students for courseId: {}, older than: {}", courseId, age);
+        if(age!=null && courseId!=null) {
+            student = studentService.getStudentsOlderThanAgeInCourse(age, courseId);
+        }
+
+        return new ResponseEntity<>(student.orElse(new ArrayList<CoursesStudents>()), HttpStatus.OK);
     }
 
     @GetMapping(value = "/count", produces = "application/json")

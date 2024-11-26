@@ -3,8 +3,10 @@ package org.calendarium.calendarium.service;
 import jakarta.persistence.EntityExistsException;
 import org.calendarium.calendarium.core.assemblers.StudentAssembler;
 import org.calendarium.calendarium.core.dto.StudentDto;
+import org.calendarium.calendarium.entity.CoursesStudents;
 import org.calendarium.calendarium.entity.Group;
 import org.calendarium.calendarium.entity.Student;
+import org.calendarium.calendarium.repo.CoursesStudentsRepository;
 import org.calendarium.calendarium.repo.GroupRepository;
 import org.calendarium.calendarium.repo.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import java.util.UUID;
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private CoursesStudentsRepository coursesStudentsRepository;
     @Autowired
     private GroupService groupService;
     @Autowired
@@ -70,5 +74,10 @@ public class StudentService {
         }
 
         return studentsInGroup;
+    }
+
+    public Optional<List<CoursesStudents>> getStudentsOlderThanAgeInCourse(Integer age, UUID courseId){
+//        return Optional.ofNullable(studentRepository.findByAgeGreaterThanAndCoursesEnrolments_Course_Id(age, courseId));
+        return Optional.ofNullable(coursesStudentsRepository.findByCourse_IdAndStudent_AgeGreaterThan(courseId,age));
     }
 }

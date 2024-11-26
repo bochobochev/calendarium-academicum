@@ -26,7 +26,7 @@ public class Course {
     @Column(name = "horarium", nullable = false)
     private Integer horarium;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "course_type_id")
     private CourseType courseType;
 

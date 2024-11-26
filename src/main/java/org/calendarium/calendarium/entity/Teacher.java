@@ -27,8 +27,6 @@ public class Teacher {
     @Column(name = "age", nullable = false)
     private Integer age;
 
-    @OneToMany(mappedBy = "teacher")
-    private Set<TeachersCourses> leadingCourses;
 
     @Override
     public boolean equals(Object o) {
@@ -53,7 +51,6 @@ public class Teacher {
                 ", firstName: '" + firstName + '\'' +
                 ", lastName: '" + lastName + '\'' +
                 ", age: " + age +
-                ", leadingCourses: " + leadingCourses +
                 '}';
     }
 }
