@@ -37,14 +37,14 @@ public class TeachersController {
             teacher = teacherService.findById(getUuidFromString(id));
         }
 
-        return new ResponseEntity<>(teacher.orElse(new Teacher()),  HttpStatus.OK);
+        return new ResponseEntity<>(teacher.orElse(Teacher.builder().build()),  HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Teacher> addTeacher(@RequestBody Teacher teacher){
         Optional<Teacher> createdTeacher = Optional.ofNullable(teacherService.save(teacher));
 
-        return  new ResponseEntity<>(createdTeacher.orElse(new Teacher()), HttpStatus.CREATED);
+        return  new ResponseEntity<>(createdTeacher.orElse(Teacher.builder().build()), HttpStatus.CREATED);
     }
 
     @PutMapping
@@ -54,7 +54,7 @@ public class TeachersController {
             updatedTeacher = teacherService.update(getUuidFromString(id), teacher);
         }
 
-        return  new ResponseEntity<>(updatedTeacher.orElse(new Teacher()), HttpStatus.OK);
+        return  new ResponseEntity<>(updatedTeacher.orElse(Teacher.builder().build()), HttpStatus.OK);
     }
 
     @DeleteMapping
@@ -64,7 +64,7 @@ public class TeachersController {
             deletedTeacher = teacherService.delete(getUuidFromString(id));
         }
 
-        return new ResponseEntity<>(deletedTeacher.orElse(new Teacher()), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(deletedTeacher.orElse(Teacher.builder().build()), HttpStatus.NO_CONTENT);
     }
 
 }

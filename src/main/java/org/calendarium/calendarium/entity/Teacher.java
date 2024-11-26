@@ -1,16 +1,18 @@
 package org.calendarium.calendarium.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "teachers")
 public class Teacher {
     @Id
