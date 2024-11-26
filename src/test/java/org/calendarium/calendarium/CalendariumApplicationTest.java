@@ -9,5 +9,3 @@ class CalendariumApplicationTest {
         CalendariumApplication.main(new String[]{"args"});
     }
 }
-
-//Generated with love by TestMe :) Please raise issues & feature requests at: https://weirddev.com/forum#!/testme

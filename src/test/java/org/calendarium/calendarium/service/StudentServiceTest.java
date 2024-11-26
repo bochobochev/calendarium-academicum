@@ -114,5 +114,3 @@ class StudentServiceTest {
         Assertions.assertEquals(Optional.of(List.of(new CoursesStudents())), result);
     }
 }
-
-//Generated with love by TestMe :) Please raise issues & feature requests at: https://weirddev.com/forum#!/testme
